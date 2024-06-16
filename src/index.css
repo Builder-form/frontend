@@ -1,3 +1,42 @@
+*{
+  --red:#F96770;
+  --light-blue:#E2F3FF;
+  --light-gray:#E3E7EB;
+  font-size: 16px;
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.base_theme{
+  --primary-color:#0099FF;
+  --background-color:#FDFDFD;
+  --secondary-color:#323F4B;
+  --line-color:#7B8794;
+}
+
+.green_theme{
+  --primary-color:#00FF00;
+  --background-color:#000000;
+  --secondary-color:#FFFFFF;
+  --line-color:#DCDCDC;
+}
+
+.orange_theme{
+  --primary-color:#DF5C18;
+  --background-color:#F7F3D6;
+  --secondary-color:#000000;
+  --line-color:#727272;
+}
+
+.monochrome_theme{
+  --primary-color:#FFFFFF;
+  --background-color:#252525;
+  --secondary-color:#FFFFFF;
+  --line-color:#B9B9B9;
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,3 +50,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');

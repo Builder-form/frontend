@@ -1,0 +1,35 @@
+.menu{
+    background-color: var(--background-color);
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    z-index: 10000;
+}
+.menu_wrapper{
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    gap:32px;
+    justify-content: space-around;
+    align-items: center;
+}
+.menu_line{
+    background-color:var(--line-color);
+    height: 1px;
+    width: 100%;
+}
+.menu_btn{
+    color:var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.active{
+    color:var(--primary-color) !important
+}

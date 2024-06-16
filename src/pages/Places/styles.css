@@ -1,0 +1,53 @@
+.places_page{
+    padding-top: 70px;
+    padding-bottom: 96px;
+    background-color: var(--background-color);
+
+}
+
+.map_container{
+    height: calc(100vh - 200px);
+}
+
+.map_popup{
+    z-index: 20000;
+    position: fixed;
+    bottom: 0px;
+    background-color: var(--background-color);
+    border-radius: 16px 16px 0px 0px;
+    padding: 16px 32px;
+}
+
+
+.map_popup_title{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary-color)
+}
+
+.place_page_switcher_wrapper{
+    display: flex;
+    flex-direction: row;
+    gap:16px;
+    width: 100%;
+    padding-right: 16px;
+}
+
+.place_drawer{
+    display: flex;
+    flex-direction: column;
+    gap:4px;
+    padding-bottom: 100px;
+}
+.drawer_title{
+    color: var(--secondary-color);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.checkbox_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:4px;
+}

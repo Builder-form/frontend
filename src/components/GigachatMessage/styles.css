@@ -1,0 +1,95 @@
+.messageBox{
+    background: var(--light-blue);
+    min-width: 20px;
+    max-width: 540px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    gap: 10px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: -0.4px;
+    text-align: left;
+    color: var(--secondary-color)
+}
+
+.messageIconsWrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: right;
+    gap:8px;
+}
+
+.messageIcon{
+    cursor: pointer;
+    height: 16px;
+}
+
+.messageIcon:hover{
+    transition: 0.3s;
+    transform: scale(1.1);
+}
+
+.likeDislikeWrapper{
+    display: flex;
+    flex-direction: row;
+    gap:4px;
+}
+
+.messageCard{
+    display: flex;
+    /* width: 100%; */
+    align-items: end;
+    justify-content: start;
+    gap:10px;
+    /* flex-direction: column; */
+    
+}
+
+.messageDate{
+    font-weight: 600;
+    color:var(--secondary-color);
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+.corner{
+    position: relative;
+    left:-4px;
+    bottom: 16px;
+    height: 16px;
+}
+
+.messageContent{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+}
+.messageImage{
+
+}
+
+
+
+
+
+.addToPlanerBtn{
+    width: 100%;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: 300;
+    height: 24px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+}
+
+.addToPlanerBtn:hover{
+    opacity: 1;
+    transform: scale(1.01);
+}

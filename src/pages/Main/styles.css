@@ -1,0 +1,25 @@
+.main_page{
+    background-color: var(--background-color);
+    padding-top: 70px;
+    padding-bottom: 96px;
+    width: 100%;
+}
+
+.main_page_carousel{
+    padding: 16px;
+
+}
+
+.main_page_content{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap:16px;
+}
+
+.main_page_card{
+    
+}

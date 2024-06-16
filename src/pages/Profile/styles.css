@@ -1,0 +1,40 @@
+.profile_page{
+    padding-top: 100px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color);
+    width: 100%;
+}
+
+.profile_page_card{
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap:8px;
+    cursor: pointer;
+}
+
+.profile_page_card_title{
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--secondary-color)
+}
+
+.profile_page_card_line{
+    width: 100%;
+    height: 1px;
+    background-color: var(--line-color);
+}
+
+.sos_btn{
+    margin-top: 32px;
+    width: calc(100%) !important;
+    border-radius:  16px !important;
+    height: 48px;
+    font-size: 18px;
+    font-weight: 700;
+}

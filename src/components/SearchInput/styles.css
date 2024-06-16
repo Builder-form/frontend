@@ -1,0 +1,80 @@
+.searchInputWrapper{
+    display: flex;
+    flex-direction: row;
+    gap:8px;
+    width: 100%;
+    padding: 0px 8px;
+}
+
+.searchInput{
+    width: Fill (484px)px;
+    height: 48px;
+    padding: 6px 16px 6px 16px;
+    gap: 8px;
+    border-radius: 8px ;
+    border: solid 1px var(--line-color);
+    opacity: 0px;
+    outline: none;
+    font-weight: 500;
+    width: 100%;
+}
+
+.searchButton{
+    height: 48px;
+    width: 48px;
+    border-radius: 100px;
+    background: var(--primary-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:8px;
+    font-weight: 600;
+    color: var(--background-color) !important
+}
+
+.searchButton > span{
+    color:var(--background-color) !important
+}
+
+.searchButton:hover{
+    transition: 0.3s;
+    border: none;
+    transform: scale(1.05);
+}
+
+.HintsWrapper{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap:8px;
+    padding: 0px 8px;
+}
+
+.hintBox{
+    font-family: Intl;
+    font-size: 13px;
+    line-height: 13px;
+    padding: 8px;
+    border-radius: 16px;
+    color: var(--line-color);
+    border: 1px solid var(--line-color);
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+}
+
+.searchWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+.HintsWrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+}
