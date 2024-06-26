@@ -19,7 +19,7 @@ export const Menu:React.FC = () =>{
                     }/>
                 Главная
             </div>
-            <div onClick={()=>navigate('/chat/27')} className={"menu_btn" + (location.pathname.includes('chat')? ' active':'')} >
+            <div onClick={()=>navigate('/chat/73')} className={"menu_btn" + (location.pathname.includes('chat')? ' active':'')} >
             <img src={
                     location.pathname.includes('chat')? 
                     '/icons/menu_chat_active.svg'
