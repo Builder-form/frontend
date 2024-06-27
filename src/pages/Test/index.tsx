@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { TestIE } from '../../types'
 import './styles.css'
 
 import '../../index.css'
-import { axios } from '../../lib/axios'
+import { axios, idUpdate } from '../../lib/axios'
 
 export const Test:React.FC = () =>{
     const [data, setData] = useState<TestIE>({
@@ -19,14 +19,18 @@ export const Test:React.FC = () =>{
     let navigate = useNavigate()
 
 
+    idUpdate()
 
     const skipTest = (data:TestIE) =>{
+        idUpdate()
+
         axios.post('form-fill/', data).then((r)=>{
             navigate('/')
             window.location.reload()
         })
         
     }
+
 
     const questions = {
         eye:{

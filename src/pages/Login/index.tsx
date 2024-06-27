@@ -12,28 +12,31 @@ export const Login:React.FC = () =>{
 
     let navigate = useNavigate()
 
-    if (localStorage.getItem('user-id') != null){
-        navigate('/')
-        window.location.reload()
-    }
+    // if (localStorage.getItem('user-id') != null){
+    //     navigate('/')
+    //     window.location.reload()
+    // }
 
     const onLoginClick = () =>{
         axios.get('/sign-in?phone='+tel,).then((r)=>{
                 if (r.status == 200){
                     localStorage.setItem('user-id', r.data)
-                    navigate('/')
+                    navigate('/auth/onBoarding/start')
                     window.location.reload()
                 } 
             }
         ).catch((c)=>{
                 axios.post('/sign-up', {phone:tel}).then((r_)=>{
                     localStorage.setItem('user-id', r_.data.id)
-                    navigate('/')
+                    navigate('/auth/onBoarding/start')
                     window.location.reload()
 
                 })
+
         })     
     }
+
+
 
     return <div className="login_page">
             <img className="login_pic" src='/pictures/welcome.svg'></img>

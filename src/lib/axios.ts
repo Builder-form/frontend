@@ -7,6 +7,9 @@ export let id = localStorage.getItem('user-id')
 
 export const idUpdate = () =>{
   id = localStorage.getItem('user-id')
+  if (localStorage.getItem('user-id') == undefined || localStorage.getItem('user-id') == null){
+    id = '1'
+  }
 }
 
 
