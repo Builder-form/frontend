@@ -1,40 +1,17 @@
+
+
 *{
-  --red:#F96770;
-  --light-blue:#E2F3FF;
-  --light-gray:#E3E7EB;
-  font-size: 16px;
-  font-family: "Mulish", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  --primary-color:#AA8066;
+  --background-color:#F0F2F5;
+  --white:#FFFFFF;
+  --line-color:#F0F0F0;
+  --outline-color:#BDBDBD;
+  --card-color:#F3F3F3;
+  --text-color:#000000;
+  --light-text-color:#929292;
+  --modal-background-color:rgba(243,243,243,0.95)
 }
 
-.base_theme{
-  --primary-color:#0099FF;
-  --background-color:#FDFDFD;
-  --secondary-color:#323F4B;
-  --line-color:#7B8794;
-}
-
-.green_theme{
-  --primary-color:#00FF00;
-  --background-color:#000000;
-  --secondary-color:#FFFFFF;
-  --line-color:#DCDCDC;
-}
-
-.orange_theme{
-  --primary-color:#DF5C18;
-  --background-color:#F7F3D6;
-  --secondary-color:#000000;
-  --line-color:#727272;
-}
-
-.monochrome_theme{
-  --primary-color:#FFFFFF;
-  --background-color:#252525;
-  --secondary-color:#FFFFFF;
-  --line-color:#B9B9B9;
-}
 
 
 body {
@@ -44,6 +21,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F2F5;
+
 }
 
 code {

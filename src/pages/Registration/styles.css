@@ -1,4 +1,4 @@
-.loginPage{
+.regPage{
     background-color: var(--white);
     padding: 40px;
     padding-top: 110px;
@@ -10,12 +10,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    
 }
-
-.loginCard{
+.regCardHeader{
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text-color)
+}
+.regCard{
     min-width: 500px;
-    padding: 32px 100px;
+    padding: 32px 50px;
     background-color: var(--card-color);
     border-radius: 20px;
     display: flex;
@@ -25,30 +28,15 @@
     gap:16px
 }
 
-.loginCardHeader{
-    font-size: 32px;
-    font-weight: 500;
-    color: var(--text-color)
-}
-
-.loginInput{
+.regCardLine{
     width: 100%;
-    height: 60px;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap:16px;
+    min-width: 400px;
 }
-.loginButton{
+.regCardLineText{
     width: 100%;
-    height: 60px;
-    border-radius: 8px;
-
-}
-
-.loginCardDescr{
-    font-size: 16px;
-    font-weight: 300;
-}
-
-
-.loginCardLogo{
-    width: 50%;
 }

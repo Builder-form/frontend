@@ -1,0 +1,83 @@
+.ProjectCard{
+    display: flex;
+    flex-direction: row;
+    height: 250px;
+    background-color: var(--white);
+    width: 100%;
+}
+
+.ProjectPic{
+    height: 250px;
+    width: 316px;
+    overflow: hidden;
+}
+.projectDescription{
+    overflow-y: scroll;
+    width: 100%;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--light-text-color)
+}
+
+.projectDescrH1{
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color)
+}
+
+.ProjectCardInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0px 24px;
+    gap:8px;
+    width: calc(100% - 48px);
+}
+.ProjectBtnWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+}
+.projectFooter{
+    padding:12px 0px;
+    border-top: 1px solid var(--line-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items:center;
+    width: 100%;
+}
+
+.ProjectCardHeader{
+    border-bottom: 1px solid var(--line-color);
+    padding:18px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ProjectCardHeader{
+    
+}
+.ProjectName{
+    color:var(--text-color);
+    font-size: 16px;
+    font-weight: 700;
+}
+.ProjectLastEdit{
+    color:var(--light-text-color);
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.delBtn{
+    transition: 0.3s;
+    cursor: pointer;
+}
+.delBtn:hover{
+    transform: scale(1.05);
+}

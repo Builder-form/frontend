@@ -1,0 +1,113 @@
+.ProjectView{
+        background-color: var(--background-color);
+        padding: 40px;
+        padding-top: 110px;
+        padding-bottom: 96px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap:16px;
+}
+.numberCell{
+}
+
+.commentCell{
+    width: 100px;
+}
+.ProjectViewCard{
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:32px;
+    flex-wrap: wrap;
+}
+
+.ProjectViewCard{
+    font-size: 32px;
+    font-weight: 500;
+}
+.ProjectViewButton{
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+}
+
+.ProjectViewButtonWrapper{
+    margin-top: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ProjectViewButtonWrapperRight{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:8px
+}
+
+.ProjectViewButtonWrapperLeft{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:8px
+}
+
+.pdfContent{
+    width: 450px;
+    padding: 24px;
+   
+}
+
+.pdfContentWrapper{
+    width: 100%;
+}
+
+.pdfContentWrapper  table { font-size: 8px; }
+.pdfAnswerID{
+    font-weight: 600;
+}
+.pdfHeader{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+
+
+
+
+.printContent{
+    width: 900px;
+    padding: 24px;
+}
+
+.printContentWrapper{
+    width: 100%;
+}
+
+.printContentWrapper  table { font-size: 16px; }
+.printAnswerID{
+    font-weight: 600;
+}
+.printHeader{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+
+

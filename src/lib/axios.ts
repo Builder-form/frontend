@@ -1,25 +1,35 @@
 import Axios from 'axios';
 import {API_URL, BACKEND_URL} from '../config';
+console.log(BACKEND_URL)
 
-export let id = localStorage.getItem('user-id')
+export let token = localStorage.getItem('token')
 
-// localStorage.setItem('user-id', '2')
 
-export const idUpdate = () =>{
-  id = localStorage.getItem('user-id')
-  if (localStorage.getItem('user-id') == undefined || localStorage.getItem('user-id') == null){
-    id = '1'
-  }
+export const tokenUpdate = () =>{
+  token = localStorage.getItem('token')
 }
-
 
 export const axios = Axios.create({
   baseURL: API_URL,
+  
   headers:{
-    // Authorization: 'Token ' + token
-    'user-id':id
+    Authorization: 'Token ' + token
   }
 });
 
+export const axiosNonAuth = Axios.create({
+  baseURL: API_URL,
+});
 
+export const auth = Axios.create({
+    baseURL:BACKEND_URL + 'auth/',
 
+})
+
+export const userApi =  Axios.create({
+  baseURL:BACKEND_URL + 'user/',
+
+  headers:{
+    Authorization: 'Token ' + token
+  }
+})

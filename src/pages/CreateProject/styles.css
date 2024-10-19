@@ -1,0 +1,45 @@
+.CreateProject{
+    background-color: var(--background-color);
+    padding: 40px;
+    padding-top: 220px;
+    padding-bottom: 96px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap:32px;
+}
+
+.CreateProjectHeader{
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text-color)
+}
+
+.CreateProjectText{
+    font-size: 16px;
+    text-align: center;
+    
+}
+
+.CreateProjectBtnsWrapper{
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:16px
+}
+
+.CreateProjectInput{
+    width: 328px;
+    height: 60px;
+    border-radius: 8px;
+}
+
+.CreateProjectBtn{
+    width: 328px;
+    height: 60px;
+    border-radius: 8px;
+}

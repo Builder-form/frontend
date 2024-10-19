@@ -1,35 +1,60 @@
 import './styles.css'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Header } from '../../components/Header'
 import { useNavigate } from 'react-router-dom'
-import { Menu } from '../../components/Menu'
-import { Carousel } from 'antd';
-import { idUpdate } from '../../lib/axios'
+import { Button, Carousel } from 'antd';
+import {axios} from '../../lib/axios'
+import { ProjectCard } from '../../components/ProjectCard';
+import { ProjectIE } from '../../types';
 
 
 export const Main:React.FC = () =>{
 
     let navigate = useNavigate()
-    idUpdate()
+    const [projects, setProjects] = useState<ProjectIE[]>()
+   
+    const queried = useRef(false);
+    
 
+
+    useEffect(()=>{
+        if (localStorage.getItem('token') == undefined){
+            navigate('/login')
+        }
+        if (!queried.current) {
+           queried.current = true;
+           axios.get('get_projects/').then((r) =>{
+                setProjects(r.data)
+            }).catch((r)=>{
+                
+            })
+        }
+    })
 
     return <div className='main_page'>
-        <Header childLeft={<img onClick={()=>navigate('/')} src='/icons/logo.svg'/>} childRight={<img onClick={()=>navigate('/search')} src='/icons/search.svg'></img>}>Главная</Header>
-        <Menu/>
-        <div className='main_page_carousel'>
-            <Carousel autoplay>
-                <img alt='Баннер' src='/pictures/main_banner_main.svg'/>
-                <img alt='Баннер' src='/pictures/main_banner_1.svg' />
-                <img alt='Баннер' src='/pictures/main_banner_2.svg' />
-            </Carousel>
+        <div className='projectWrapper'>
+            <div className='mainHeaderWrapper'>
+                <div className='mainHeader'>Project</div>
+                <Button onClick={()=>navigate('/project/create')} size='large' type='primary'>+ new project</Button>
+            </div>
+            {
+            projects?.length == 0?
+            <div className='noProjects'>
+                No Projects<br></br>
+                Let's create a new one!
+                <Button onClick={()=>navigate('/project/create')} size='large' type='primary'>Create project</Button>
+            </div>:
+            projects?.map((project, index)=> <ProjectCard 
+                name={project.name}
+                id={project.id}
+                last_edit = {project.last_edit}
+                created =  {project.created}
+                progress =  {project.progress}
+            ></ProjectCard>)
+            }
         </div>
-
-        <div className='main_page_content'>
-            <img alt='Места' onClick={()=>navigate('/places')} src='/pictures/main_locations.svg'/>
-            <img alt='Рекомендации' onClick={()=>navigate('/recommendations')} src='/pictures/main_recommendations_card.svg'/>
-            <img alt='Маршруты' onClick={()=>navigate('/chat/27')}src='/pictures/main_routes.svg'/>
-            <img alt='Избранное' onClick={()=>navigate('/favorites')} src='/pictures/main_favorites_card.svg'/>
-        </div>
+        
+           
         
     </div>
 }

@@ -1,4 +1,4 @@
-.loginPage{
+.emailCode{
     background-color: var(--white);
     padding: 40px;
     padding-top: 110px;
@@ -13,7 +13,7 @@
     
 }
 
-.loginCard{
+.emailCodeCard{
     min-width: 500px;
     padding: 32px 100px;
     background-color: var(--card-color);
@@ -22,33 +22,49 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap:16px
+    gap:32px
+}
+.sendCodeAgain{
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: -16px;
+    margin-bottom: -16px;
+    color: var(--light-text-color)
 }
 
-.loginCardHeader{
+.emailCardHeader{
     font-size: 32px;
     font-weight: 500;
     color: var(--text-color)
 }
 
-.loginInput{
-    width: 100%;
-    height: 60px;
-    border-radius: 8px;
-}
-.loginButton{
+
+.emailButton{
     width: 100%;
     height: 60px;
     border-radius: 8px;
 
 }
 
-.loginCardDescr{
+.emailCardDescr{
     font-size: 16px;
     font-weight: 300;
+    text-align: center;
+}
+
+.codeInput{
+    height: 60px;
+}
+.emailCardLogo{
+    width: 50%;
 }
 
 
-.loginCardLogo{
-    width: 50%;
+.emailCodeWrapper{
+    display: flex;
+    flex-direction: row;
+    gap:32px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
