@@ -162,6 +162,7 @@ export const ProjectView:React.FC = () =>{
         {...data?.property_type, key:'1'},
         {...data?.project_type, key:'2'},
     ]
+    
     if (data != undefined){
         dataSource = [...dataSource, ...data?.list_of_work.text.split('<br/>').map((value:string, index:number)=>{
             return {

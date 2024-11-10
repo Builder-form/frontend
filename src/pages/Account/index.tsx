@@ -1,6 +1,7 @@
-import { Button } from "antd";
+import { App, Button } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PaymentComponent from "../../components/paymentComponent";
 import { userApi } from "../../lib/axios";
 import './styles.css'
 
@@ -13,6 +14,7 @@ export const Account = () =>{
     })
     
     const queried = useRef(false);
+    const { message, modal, notification } = App.useApp();
 
     useEffect(()=>{
         if (!queried.current) {
@@ -26,6 +28,19 @@ export const Account = () =>{
 
     let navigate = useNavigate()
 
+    const logout = () => {
+        modal.confirm({
+            title: 'LOGOUT',
+            content: 'Are you sure you want to logout?',
+            okText: 'OK',
+            cancelText: 'Cancel',
+            onOk: ()=>{
+                localStorage.clear()
+                navigate('/login')
+            }
+        })
+    }
+
     return <div className="accountPage">
         <div className="goToProjects" onClick={()=>navigate('/')}>Go to  projects</div>
         <div className="accountCard">
@@ -36,8 +51,13 @@ export const Account = () =>{
                     <div>E-mail: {data.username}</div>
                     <div>Phone number: {data.phone_number}</div>
                     <Button type="primary" onClick={()=>navigate('/register')} size="large">Change</Button>
+                    <Button  onClick={()=>logout()} size="large">Logout</Button>
+
                 </div>
-                <img src='/pictures/cards.svg'></img>
+                <div>
+                    <div className="accountCardInfoHeader">Payment<br></br></div>
+                    <PaymentComponent></PaymentComponent>
+                </div>
             </div>
         </div>
 }
