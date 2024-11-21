@@ -1,4 +1,4 @@
-import { Button, Input } from "antd";
+import { App, Button, Input } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axios } from "../../lib/axios";
@@ -6,12 +6,16 @@ import './styles.css'
 
 export const CreateProject : React.FC = () =>{
     const [name, setName] = useState('')
+    const { message, notification, modal } = App.useApp();
 
     let navigate = useNavigate()
 
     const onCreate = () =>{
         axios.post('project/', {name:name}).then((data)=>{
             navigate('/project/'+data.data.id)
+        }).catch((err) =>{
+            message.error('Please buy accept to project')
+            navigate('/account')
         })
     }
 

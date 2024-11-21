@@ -11,7 +11,10 @@ export const Account = () =>{
         last_name:'',
         username:'',
         phone_number:'',
+        projects_created: 0,
+        projects_availables: 0,
     })
+    
     
     const queried = useRef(false);
     const { message, modal, notification } = App.useApp();
@@ -50,13 +53,15 @@ export const Account = () =>{
                     <div>Last Name: {data.last_name}</div>
                     <div>E-mail: {data.username}</div>
                     <div>Phone number: {data.phone_number}</div>
+                    <div>Project created: {data.projects_created}</div>
+                    <div>Project projects_availables: {data.projects_availables}</div>
                     <Button type="primary" onClick={()=>navigate('/register')} size="large">Change</Button>
                     <Button  onClick={()=>logout()} size="large">Logout</Button>
 
                 </div>
                 <div>
                     <div className="accountCardInfoHeader">Payment<br></br></div>
-                    <PaymentComponent></PaymentComponent>
+                    <PaymentComponent user={data.phone_number}></PaymentComponent>
                 </div>
             </div>
         </div>
