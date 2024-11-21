@@ -34,8 +34,8 @@ export const Main:React.FC = () =>{
     return <div className='main_page'>
         <div className='projectWrapper'>
             <div className='mainHeaderWrapper'>
-                <div className='mainHeader'>Project</div>
-                <Button onClick={()=>navigate('/project/create')} size='large' type='primary'>+ new project</Button>
+                <div className='mainHeader'>Projects</div>
+                <Button onClick={()=>navigate('/project/create')} size='large' type='primary'>+ New project</Button>
             </div>
             {
             projects?.length == 0?

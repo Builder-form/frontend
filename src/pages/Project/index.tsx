@@ -18,7 +18,7 @@ export const ProjectPage:React.FC = () =>{
     const queried = useRef(false);
     const params = useParams()
     let navigate = useNavigate()
-
+    console.log(answers)
     useEffect(()=>{
         if (localStorage.getItem('token') == undefined){
                 navigate('/login')
@@ -83,10 +83,16 @@ export const ProjectPage:React.FC = () =>{
         if (data.checked){
             setAnswers([{text:data.text, id:data.id, question_instance:currentQuestion?.pk}, ...answers] as any)
         } else{
-            let answer = {text:data.text, id:data.id}
-            let new_answers = answers
-            new_answers.splice(new_answers.indexOf(answer as never), 1)
+            // let answer = {text:data.text, id:data.id}
+            // let new_answers = answers
+            // new_answers.splice(new_answers.indexOf(answer as never), 1)
+            setAnswers(answers => answers.filter((item:any) => item.id !== data.id));
+            
         }
+    }
+
+    const onCheckedRadio = (data:{text:string, id:string, checked:boolean}) => {
+        setAnswers([{text:data.text, id:data.id, question_instance:currentQuestion?.pk}] as any)
     }
 
     const onNextClick = () =>{
@@ -109,7 +115,7 @@ export const ProjectPage:React.FC = () =>{
             showModal? <div className="modalBackground">
                 <div className="modalCard">
                     <img className="modalCross" onClick={()=>setShowModal(false)} src='/icons/cross.svg'></img>
-                    <div className="ProjectPageHeader">Question #{currentQuestion?.qid} </div>
+                    <div className="ProjectPageHeader">Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} </div>
                     <div className="modalHeader">Termins</div>
                     <div className="modalsTermins">
                         {
@@ -127,7 +133,7 @@ export const ProjectPage:React.FC = () =>{
         <div className="goToProjects" onClick={()=>navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-            Question #{currentQuestion?.qid} 
+            Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} 
             {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0? 
                 <img className="terminBtn" onClick={()=>setShowModal(true)}  src='/icons/termin.svg'></img>
                 
@@ -137,8 +143,7 @@ export const ProjectPage:React.FC = () =>{
         
         <div className="ProjectPageTreeWrapper">
             <div className="ProjectTree" style={{whiteSpace:'pre-line'}}>
-                <Table pagination={false} dataSource={dataSource} columns={columns} />;
-
+                <Table pagination={false} dataSource={dataSource} columns={columns} />
             </div>
             <div className="ProjectPageMainWrapper">
                 <div className="ProjectPageQuestion" >{currentQuestion?.text}</div>
@@ -147,7 +152,7 @@ export const ProjectPage:React.FC = () =>{
                         currentQuestion?.answers[0].type == 'SINGLE'?
                         <Radio.Group className="ProjectPageQuestionWrapper">
                             {currentQuestion?.answers.map((value, index)=>
-                            <Answer onChecked={(e)=>onChecked(e)} answer={value} ></Answer>)}
+                            <Answer onChecked={(e)=>{onCheckedRadio(e);}} answer={value} ></Answer>)}
                         </Radio.Group>
                         :
                         currentQuestion?.answers.map((value, index)=>

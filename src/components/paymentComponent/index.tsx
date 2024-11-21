@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { axios } from '../../lib/axios';
 import { PAYPAL_CLIENT_ID } from '../../config';
 
@@ -8,17 +8,10 @@ import { PAYPAL_CLIENT_ID } from '../../config';
 const PaymentComponent = () => {
 
 
-    const createOrder = async (data:any, actions:any) => {
+    const handleApprove = async (data:any, actions:any) => {
         
         const response = await axios.post('/create_payment/')
-        var token = '';
-        var links = response.data.links;
-        for (var i = 0; i < links.length; i++) {
-            if (links[i].rel === 'approval_url') {
-                token = links[i].href.split('EC-', 2)[1];
-            }
-        }
-        return token;
+        console.log(response)
         // return response.data.id
     };
 
@@ -32,10 +25,25 @@ const PaymentComponent = () => {
     };
 
     return (
-        <PayPalScriptProvider options={{ 'clientId':PAYPAL_CLIENT_ID, 'currency':'GBP', }}>
-            <PayPalButtons  createOrder={createOrder} onApprove={onApprove} />
-            
-
+        <PayPalScriptProvider options={{ 'clientId':PAYPAL_CLIENT_ID, 'currency':'GBP'}}>
+            <PayPalButtons
+                createOrder={(data, actions) =>{ return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            currency_code: "GBP",
+                            value: "10.00",
+                        },
+                        
+                    }], 
+                } as any);
+            }}
+            onApprove={async (data:any, actions:any) => {
+                await handleApprove(data, actions)
+                return actions?.order.capture().then(function (details:any) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }}
+            ></PayPalButtons>
         </PayPalScriptProvider>
     );
 };

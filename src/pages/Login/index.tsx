@@ -21,7 +21,7 @@ export const Login:React.FC = () =>{
         auth.post('/sign-in/', {email:email}).then((r)=>{
             if (r.status == 200){
                 localStorage.setItem('email', email)
-                message.success('Code sended on your E-mail !')
+                message.success('Code sended on your e-mail !')
                 navigate('/login/code')
             }  
         }).catch((res)=>{
@@ -38,7 +38,7 @@ export const Login:React.FC = () =>{
             <div className="loginCard">
                 <img className="loginCardLogo" src='/icons/logo.svg'></img>
                 <div className="loginCardHeader">Welcome!</div>
-                <div className="loginCardDescr">Enter your e-mail to Log in</div>
+                <div className="loginCardDescr">Enter your e-mail to log in</div>
                 
                 <Input placeholder="example@example.com" size="large" className="loginInput" onChange={(e)=>setEmail(e.target.value)}></Input>
                 <Button  htmlType="submit" size="large" type='primary' className="loginButton" onClick={()=>onLoginClick()}>Log in/Sign up</Button>

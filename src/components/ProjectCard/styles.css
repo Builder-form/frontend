@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 .projectDescription{
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100%;
     font-size: 12px;
     font-weight: 300;

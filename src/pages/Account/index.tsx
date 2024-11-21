@@ -42,7 +42,7 @@ export const Account = () =>{
     }
 
     return <div className="accountPage">
-        <div className="goToProjects" onClick={()=>navigate('/')}>Go to  projects</div>
+        <div className="goToProjects" onClick={()=>navigate('/')}>Go to projects</div>
         <div className="accountCard">
                 <div className="accountCardInfo">
                     <div className="accountCardInfoHeader">Account</div>

@@ -46,7 +46,7 @@ export const ProjectCard:React.FC<ProjectIE> = (props) =>{
                 <div className="ProjectBtnWrapper">
                     {
                         props.progress == 100? <Tag color="#52C41A">Completed</Tag>:
-                        props.progress <= 1?       <Tag color="#1890FF">NEW</Tag>:<Tag color="#1890FF">{props.progress}% progress</Tag>
+                        props.progress <= 1?       <Tag color="#1890FF">New</Tag>:<Tag color="#1890FF">{props.progress}% progress</Tag>
                     }
                     <img className="delBtn" onClick={()=>onDeleteClick()} src='/icons/del.svg'/>
                 </div>
