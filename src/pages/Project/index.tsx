@@ -8,9 +8,9 @@ import './styles.css'
 import { DownOutlined } from '@ant-design/icons';
 
 
-export const ProjectPage:React.FC = () =>{
+export const ProjectPage: React.FC = () => {
     const [currentQuestion, setCurrentQuestion] = useState<QuestionIE>()
-    const [showModal, setShowModal]  = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const [answers, setAnswers] = useState([])
     const [progress, setProgress] = useState(0)
     const [tree, setTree] = useState<TreeIE>({} as TreeIE)
@@ -19,90 +19,116 @@ export const ProjectPage:React.FC = () =>{
     const params = useParams()
     let navigate = useNavigate()
     console.log(answers)
-    useEffect(()=>{
-        if (localStorage.getItem('token') == undefined){
-                navigate('/login')
+    useEffect(() => {
+        if (localStorage.getItem('token') == undefined) {
+            navigate('/login')
         }
         if (!queried.current) {
-           queried.current = true;
-           axios.post('current_question/', {project_id : params?.id}).then((r) =>{
+            queried.current = true;
+            axios.post('current_question/', { project_id: params?.id }).then((r) => {
                 setCurrentQuestion(r.data)
                 setProgress(r.data.progress)
                 setTree(JSON.parse(r.data.tree))
                 navigate('#' + r.data.qid)
-                if (r.data.qid == 'END'){
-                    navigate('/project/'+params.id+'/view')
+                if (r.data.qid == 'END') {
+                    navigate('/project/' + params.id + '/view')
                 }
             })
         }
     })
-    
+
 
     let dataSource = [
-        {...tree?.property_type, key:'1'},
-        {...tree?.project_type, key:'2'},
+        { ...tree?.property_type, key: '1' },
+        { ...tree?.project_type, key: '2' },
     ]
 
-    if (tree?.list_of_work != undefined){
-        dataSource = [...dataSource, ...tree?.list_of_work.text.split('<br/>').map((value:string, index:number)=>{
+    if (tree?.list_of_work != undefined) {
+        dataSource = [...dataSource, ...tree?.list_of_work.text.split('<br/>').map((value: string, index: number) => {
             return {
                 name: tree?.list_of_work.name,
-                text: value, 
+                text: value,
                 key: index + 3,
-            }}) as any]
+            }
+        }) as any]
     }
 
     const columns: TableProps<TreeLeafIE>['columns'] = [
         {
             title: '№',
             dataIndex: 'key',
-            render: (text:string) => <div className="numberCell">{text}</div>
+            render: (text: string) => <div className="numberCell">{text}</div>
         },
         {
-          title: 'Name',
-          dataIndex: 'name',
-          onCell: (_:any, index:any) => {
-            if (index === 2) {
-              return { rowSpan: dataSource.length - 2};
-            }
-           
-              if (index > 2) {
-                return { colSpan: 0 };
-              }
-            return {};
-          },
+            title: 'Name',
+            dataIndex: 'name',
+            onCell: (_: any, index: any) => {
+                if (index === 2) {
+                    return { rowSpan: dataSource.length - 2 };
+                }
+
+                if (index > 2) {
+                    return { colSpan: 0 };
+                }
+                return {};
+            },
         },
         {
-          title: 'Text',
-          dataIndex: 'text',
-          render: (text:string) =>  <div dangerouslySetInnerHTML={{ __html: text}} />,
+            title: 'Text',
+            dataIndex: 'text',
+            render: (text: string) => <div dangerouslySetInnerHTML={{ __html: text }} />,
         },
     ]
 
-    const onChecked = (data:{text:string, id:string, checked:boolean}) =>{
-        if (data.checked){
-            setAnswers([{text:data.text, id:data.id, question_instance:currentQuestion?.pk}, ...answers] as any)
-        } else{
+    const isLeaveAsItAs = () => {
+        return answers.some((item: any) => item.text == "LEAVE AS IT IS:" || item.text == "Leave as it is")
+    }
+    const isLeaveAsItAsString = (text: string) => {
+        return text == "LEAVE AS IT IS:" || text == "Leave as it is"
+    }
+    const onChecked = (data: { text: string, id: string, checked: boolean }) => {
+        console.log(data)
+        if (isLeaveAsItAsString(data.text)) {
+            onCheckedRadio(data)
+            return;
+        }
+        if (data.checked) {
+            if (answers.some((ans: any) => ans?.id === data.id)) {
+                console.log('here')
+                const updatedAnswers = answers.map((item: any) => {
+                    if (item.id === data.id) {
+                        return { ...item, text: data.text };
+                    }
+                    return item;
+                });
+                setAnswers(updatedAnswers as any);
+                return;
+            }
+            setAnswers([{ text: data.text, id: data.id, question_instance: currentQuestion?.pk }, ...answers] as any)
+        } else {
             // let answer = {text:data.text, id:data.id}
             // let new_answers = answers
             // new_answers.splice(new_answers.indexOf(answer as never), 1)
-            setAnswers(answers => answers.filter((item:any) => item.id !== data.id));
-            
+            setAnswers(answers => answers.filter((item: any) => item.id !== data.id));
+
         }
     }
 
-    const onCheckedRadio = (data:{text:string, id:string, checked:boolean}) => {
-        setAnswers([{text:data.text, id:data.id, question_instance:currentQuestion?.pk}] as any)
+    const onCheckedRadio = (data: { text: string, id: string, checked: boolean }) => {
+        if (data.checked) {
+            setAnswers([{ text: data.text, id: data.id, question_instance: currentQuestion?.pk }] as any)
+        } else {
+            setAnswers([]);
+        }
     }
-
-    const onNextClick = () =>{
-        axios.post('answer_question/', {project_id : params?.id, answers:answers}).then((r) =>{
+    const onNextClick = () => {
+        axios.post('answer_question/', { project_id: params?.id, answers: answers }).then((r) => {
             console.log(r.data)
             window.location.reload()
         })
     }
-    const onBackClick = () =>{
-        axios.post('/project/back/', {project_id : params?.id}).then((r) =>{
+    const onBackClick = () => {
+        axios.post('/project/back/', { project_id: params?.id }).then((r) => {
             console.log(r.data)
             window.location.reload()
         })
@@ -112,65 +138,76 @@ export const ProjectPage:React.FC = () =>{
     return <div className="ProjectPage">
 
         {
-            showModal? <div className="modalBackground">
+            showModal ? <div className="modalBackground">
                 <div className="modalCard">
-                    <img className="modalCross" onClick={()=>setShowModal(false)} src='/icons/cross.svg'></img>
+                    <img className="modalCross" onClick={() => setShowModal(false)} src='/icons/cross.svg'></img>
                     <div className="ProjectPageHeader">Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} </div>
                     <div className="modalHeader">Termins</div>
                     <div className="modalsTermins">
                         {
-                            currentQuestion?.termins.map((value, index)=><div className="modalText">
+                            currentQuestion?.termins.map((value, index) => <div className="modalText">
                                 <span className="blackModalText">{value.termin} — </span>
                                 {value.description}
                             </div>)
                         }
                     </div>
-                    <Button size="large" onClick={()=>setShowModal(false)}>Close</Button>
+                    <Button size="large" onClick={() => setShowModal(false)}>Close</Button>
                 </div>
             </div> : <></>
         }
 
-        <div className="goToProjects" onClick={()=>navigate('/')}>Go to other projects</div>
+        <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-            Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} 
-            {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0? 
-                <img className="terminBtn" onClick={()=>setShowModal(true)}  src='/icons/termin.svg'></img>
-                
-            :
-        <div></div>}
+            Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)}
+            {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
+                <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
+
+                :
+                <div></div>}
         </div>
-        
+
         <div className="ProjectPageTreeWrapper">
-            <div className="ProjectTree" style={{whiteSpace:'pre-line'}}>
+            <div className="ProjectTree" style={{ whiteSpace: 'pre-line' }}>
                 <Table pagination={false} dataSource={dataSource} columns={columns} />
             </div>
             <div className="ProjectPageMainWrapper">
                 <div className="ProjectPageQuestion" >{currentQuestion?.text}</div>
                 <div className="ProjectPageQuestionWrapper">
                     {
-                        currentQuestion?.answers[0].type == 'SINGLE'?
-                        <Radio.Group className="ProjectPageQuestionWrapper">
-                            {currentQuestion?.answers.map((value, index)=>
-                            <Answer onChecked={(e)=>{onCheckedRadio(e);}} answer={value} ></Answer>)}
-                        </Radio.Group>
-                        :
-                        currentQuestion?.answers.map((value, index)=>
-                        <Answer onChecked={(e)=>onChecked(e)} answer={value} ></Answer>)
+                        currentQuestion?.answers[0].type == 'SINGLE' ?
 
+                            <Radio.Group className="ProjectPageQuestionWrapper">
+                                {currentQuestion?.answers.map((value, index) =>
+                                    <Answer
+                                        onChecked={(e) => { onCheckedRadio(e); }}
+                                        answer={value}
+                                        checked={isLeaveAsItAsString(value.text) || answers.some((ans: any) => ans?.id === value.id)} // Устанавливаем checked
+                                    />
+                                    // <Answer onChecked={(e) => { onCheckedRadio(e); }} answer={value} ></Answer>
+                                )}
+                            </Radio.Group>
+                            :
+                            currentQuestion?.answers.map((value, index) =>
+                                <Answer
+                                    disabled={isLeaveAsItAs()} // Отключаем, если Leave As It Is активен
+                                    onChecked={(e) => onChecked(e)}
+                                    answer={value}
+                                    checked={answers.some((ans: any) => ans?.id === value.id)}
+                                />)
                     }
-                </div>   
+                </div>
                 <div className="ProjectPageBtnsWrapper">
                     {
-                        currentQuestion?.qid == 'Q1'? <div></div>
-                        :
-                        <Button onClick={()=>onBackClick()} size="large" >Back</Button>
+                        currentQuestion?.qid == 'Q1' ? <div></div>
+                            :
+                            <Button onClick={() => onBackClick()} size="large" >Back</Button>
                     }
-                    <Button onClick={()=>onNextClick()} size="large" type="primary">Next</Button>
+                    <Button onClick={() => onNextClick()} size="large" type="primary">Next</Button>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
 }

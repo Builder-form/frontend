@@ -1,4 +1,4 @@
-import { App, Button, Spin, Table, TableProps } from "antd";
+import { App, Button, Spin, Table, TableProps, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosNonAuth } from "../../lib/axios";
@@ -219,17 +219,19 @@ export const ProjectView:React.FC = () =>{
         
         <div className="ProjectViewButtonWrapper">
             <div className="ProjectViewButtonWrapperLeft">
-                <Button onClick={()=>onPrintClick()} className="ProjectViewButton"><img src='/icons/print.svg'/></Button>
-                <Button onClick={()=>onLinkClick()} className="ProjectViewButton"><img src='/icons/link.svg'/></Button>
+              <Tooltip title='Print your project as PDF or save'>
+                <Button  onClick={()=>onPrintClick()} className="ProjectViewButton"><img  src='/icons/print.svg'/></Button>
+              </Tooltip>
+                <Button title='Copy link to your project' onClick={()=>onLinkClick()} className="ProjectViewButton"><img src='/icons/link.svg'/></Button>
                 <a onClick={()=>onShareClick()} target='_blank' href={'https://wa.me/?text=' + '\n I am sharing with you my home renovation project created in ' + window.location.href }>
-                <Button  className="ProjectViewButton"><img src='/icons/share.svg'/></Button>
+                    <Button title='Send project to WhatsApp'  className="ProjectViewButton"><img src='/icons/share.svg'/></Button>
                 </a>
-                <Button onClick={()=>onExcelClick()} className="ProjectViewButton"><img src='/icons/file.svg'/></Button>
-                <Button onClick={()=>onMailClick()} className="ProjectViewButton"><img src='/icons/mail.svg'/></Button>
+                <Button  title='Download Excel (.xls) file' onClick={()=>onExcelClick()} className="ProjectViewButton"><img src='/icons/file.svg'/></Button>
+                <Button  title='Send project as E-mail' onClick={()=>onMailClick()} className="ProjectViewButton"><img src='/icons/mail.svg'/></Button>
             </div>
 
             <div className="ProjectViewButtonWrapperRight">
-                <Button onClick={()=>onDownloadClick()} className="ProjectViewButton" type="primary"><img src='/icons/download.svg'/></Button>
+                <Button  title='Download PDF file' onClick={()=>onDownloadClick()} className="ProjectViewButton" type="primary"><img src='/icons/download.svg'/></Button>
             </div>
 
         </div>

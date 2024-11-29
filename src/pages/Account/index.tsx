@@ -5,27 +5,27 @@ import PaymentComponent from "../../components/paymentComponent";
 import { userApi } from "../../lib/axios";
 import './styles.css'
 
-export const Account = () =>{
+export const Account = () => {
     const [data, setData] = useState({
-        first_name:'',
-        last_name:'',
-        username:'',
-        phone_number:'',
+        first_name: '',
+        last_name: '',
+        username: '',
+        phone_number: '',
         projects_created: 0,
         projects_availables: 0,
     })
-    
-    
+
+
     const queried = useRef(false);
     const { message, modal, notification } = App.useApp();
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!queried.current) {
-           queried.current = true;
-           
-           userApi.get('user_self_info/').then((r) =>{
+            queried.current = true;
+
+            userApi.get('user_self_info/').then((r) => {
                 setData(r.data)
-            }).catch((r)=>navigate('/login'))
+            }).catch((r) => navigate('/login'))
         }
     })
 
@@ -37,7 +37,7 @@ export const Account = () =>{
             content: 'Are you sure you want to logout?',
             okText: 'OK',
             cancelText: 'Cancel',
-            onOk: ()=>{
+            onOk: () => {
                 localStorage.clear()
                 navigate('/login')
             }
@@ -45,24 +45,24 @@ export const Account = () =>{
     }
 
     return <div className="accountPage">
-        <div className="goToProjects" onClick={()=>navigate('/')}>Go to projects</div>
+        <div className="goToProjects" onClick={() => navigate('/')}>Go to projects</div>
         <div className="accountCard">
-                <div className="accountCardInfo">
-                    <div className="accountCardInfoHeader">Account</div>
-                    <div>First Name: {data.first_name}</div>
-                    <div>Last Name: {data.last_name}</div>
-                    <div>E-mail: {data.username}</div>
-                    <div>Phone number: {data.phone_number}</div>
-                    <div>Project created: {data.projects_created}</div>
-                    <div>Project projects_availables: {data.projects_availables}</div>
-                    <Button type="primary" onClick={()=>navigate('/register')} size="large">Change</Button>
-                    <Button  onClick={()=>logout()} size="large">Logout</Button>
+            <div className="accountCardInfo">
+                <div className="accountCardInfoHeader">Account</div>
+                <div>First Name: {data.first_name}</div>
+                <div>Last Name: {data.last_name}</div>
+                <div>E-mail: {data.username}</div>
+                <div>Phone number: {data.phone_number}</div>
+                <div>Project created: {data.projects_created}</div>
+                <div>Project projects_availables: {data.projects_availables}</div>
+                <Button type="primary" onClick={() => navigate('/register')} size="large">Change</Button>
+                <Button onClick={() => logout()} size="large">Logout</Button>
 
-                </div>
-                <div>
-                    <div className="accountCardInfoHeader">Payment<br></br></div>
-                    <PaymentComponent user={data.phone_number}></PaymentComponent>
-                </div>
+            </div>
+            <div>
+                <div className="accountCardInfoHeader">Payment<br></br></div>
+                {/* <PaymentComponent user={data.phone_number}></PaymentComponent> */}
             </div>
         </div>
+    </div>
 }
