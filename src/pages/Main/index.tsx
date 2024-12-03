@@ -2,7 +2,7 @@ import './styles.css'
 import React, { useEffect, useRef, useState } from 'react'
 import { Header } from '../../components/Header'
 import { useNavigate } from 'react-router-dom'
-import { Button, Carousel } from 'antd';
+import { Button, Carousel, Spin } from 'antd';
 import { axios } from '../../lib/axios'
 import { ProjectCard } from '../../components/ProjectCard';
 import { ProjectIE } from '../../types';
@@ -37,7 +37,8 @@ export const Main: React.FC = () => {
                 <div className='mainHeader'>Projects</div>
                 <Button onClick={() => navigate('/project/create')} size='large' type='primary'>+ New project</Button>
             </div>
-            {
+            {   
+                projects == undefined ? <Spin></Spin> : 
                 projects?.length == 0 ?
                     <div className='noProjects'>
                         No Projects<br></br>

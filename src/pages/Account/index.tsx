@@ -53,16 +53,15 @@ export const Account = () => {
                 <div>Last Name: {data.last_name}</div>
                 <div>E-mail: {data.username}</div>
                 <div>Phone number: {data.phone_number}</div>
-                <div>Project created: {data.projects_created}</div>
-                <div>Project projects_availables: {data.projects_availables}</div>
-                <Button type="primary" onClick={() => navigate('/register')} size="large">Change</Button>
+                {/* <div>Project created: {data.projects_created}</div>
+                <div>Project projects_availables: {data.projects_availables}</div> */}
+                <Button type="primary" onClick={() => navigate('/register')} size="large">Change profile</Button>
                 <Button onClick={() => logout()} size="large">Logout</Button>
-
             </div>
-            <div>
+            {/* <div>
                 <div className="accountCardInfoHeader">Payment<br></br></div>
-                {/* <PaymentComponent user={data.phone_number}></PaymentComponent> */}
-            </div>
+                <PaymentComponent user={data.phone_number}></PaymentComponent>
+            </div> */}
         </div>
     </div>
 }

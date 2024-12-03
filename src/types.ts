@@ -23,6 +23,7 @@ export interface TerminIE{
 }
 
 export interface QuestionIE{
+    number_id: number,
     qid:string,
     project:string,
     params:string,

@@ -141,7 +141,8 @@ export const ProjectPage: React.FC = () => {
             showModal ? <div className="modalBackground">
                 <div className="modalCard">
                     <img className="modalCross" onClick={() => setShowModal(false)} src='/icons/cross.svg'></img>
-                    <div className="ProjectPageHeader">Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} </div>
+                    {/* <div className="ProjectPageHeader">Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} </div> */}
+                    <div className="ProjectPageHeader">Question #{currentQuestion?.number_id}</div>
                     <div className="modalHeader">Termins</div>
                     <div className="modalsTermins">
                         {
@@ -159,10 +160,10 @@ export const ProjectPage: React.FC = () => {
         <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-            Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)}
+        Question #{currentQuestion?.number_id}
+            {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
             {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
                 <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
-
                 :
                 <div></div>}
         </div>
@@ -193,7 +194,7 @@ export const ProjectPage: React.FC = () => {
                                     disabled={isLeaveAsItAs()} // Отключаем, если Leave As It Is активен
                                     onChecked={(e) => onChecked(e)}
                                     answer={value}
-                                    checked={answers.some((ans: any) => ans?.id === value.id)}
+                                    checked={value.type == 'NUMBER EACH' ? true : answers.some((ans: any) => ans?.id === value.id)}
                                 />)
                     }
                 </div>
