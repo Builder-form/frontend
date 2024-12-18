@@ -19,9 +19,9 @@
     background-color: var(--white);
     border-radius: 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
-    justify-content:center;
+    justify-content:space-between;
     gap:64px
 }
 .accountCardInfoHeader{
@@ -37,4 +37,12 @@
     flex-direction: column;
     gap:16px;
     font-size: 16px;
+    height: 100%;
+}
+
+.accountInfoText{
+    text-align: center;
+    color: var(--light-text-color);
+    font-size: 20px;
+    font-weight: 400;
 }

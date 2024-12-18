@@ -1,7 +1,7 @@
 import { App, Button, Spin, Table, TableProps, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { axiosNonAuth } from "../../lib/axios";
+import { axios, axiosNonAuth } from "../../lib/axios";
 import './styles.css'
 import {jsPDF} from 'jspdf'
 import { useReactToPrint } from 'react-to-print';
@@ -71,7 +71,9 @@ export const ProjectView:React.FC = () =>{
 
 
     const onMailClick = () =>{
-        
+        axios.post('send_email/', {subject:'Your project: ' + data?.name, message:data?.list_of_work.text}).then((r) => {
+            message.success('Email sended!')
+        })
     }
     const onDownloadClick = () =>{
         onFileClick()

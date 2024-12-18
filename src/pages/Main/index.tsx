@@ -35,15 +35,15 @@ export const Main: React.FC = () => {
         <div className='projectWrapper'>
             <div className='mainHeaderWrapper'>
                 <div className='mainHeader'>Projects</div>
-                <Button onClick={() => navigate('/project/create')} size='large' type='primary'>+ New project</Button>
+                <Button onClick={() => navigate('/project/create')} size='large' type='primary'>Create a new project</Button>
             </div>
             {   
                 projects == undefined ? <Spin></Spin> : 
                 projects?.length == 0 ?
                     <div className='noProjects'>
-                        No Projects<br></br>
+                        You don't have any projects<br></br>
                         Let's create a new one!
-                        <Button onClick={() => navigate('/project/create')} size='large' type='primary'>Create project</Button>
+                        <Button onClick={() => navigate('/project/create')} size='large' type='primary'>Create a new project</Button>
                     </div> :
                     projects?.map((project, index) => <ProjectCard
                         name={project.name}

@@ -1,4 +1,4 @@
-import { Button, Progress, Radio, Spin, Table, TableProps, Tooltip, Tree } from "antd";
+import { App, Button, Progress, Radio, Spin, Table, TableProps, Tooltip, Tree } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Answer } from "../../components/Answer";
@@ -9,10 +9,13 @@ import { DownOutlined } from '@ant-design/icons';
 
 
 export const ProjectPage: React.FC = () => {
+    const { message, notification, modal } = App.useApp();
+
     const [currentQuestion, setCurrentQuestion] = useState<QuestionIE>()
     const [showModal, setShowModal] = useState(false)
-    const [answers, setAnswers] = useState([])
+    const [answers, setAnswers] = useState<{text:string, id:string}[]>([])
     const [progress, setProgress] = useState(0)
+    const [questionNumber, setQuestionNumber] = useState(0)
     const [tree, setTree] = useState<TreeIE>({} as TreeIE)
     const MemoTooltip = Tooltip || React.memo(Tooltip);
     const queried = useRef(false);
@@ -29,6 +32,7 @@ export const ProjectPage: React.FC = () => {
                 setCurrentQuestion(r.data)
                 setProgress(r.data.progress)
                 setTree(JSON.parse(r.data.tree))
+                setQuestionNumber(r.data.answered_questions)
                 navigate('#' + r.data.qid)
                 if (r.data.qid == 'END') {
                     navigate('/project/' + params.id + '/view')
@@ -37,6 +41,9 @@ export const ProjectPage: React.FC = () => {
         }
     })
 
+    const clearData = () => {
+        setAnswers([])
+    }
 
     let dataSource = [
         { ...tree?.property_type, key: '1' },
@@ -122,15 +129,40 @@ export const ProjectPage: React.FC = () => {
         }
     }
     const onNextClick = () => {
+        if (answers.length == 0) {
+            message.info('Please select an answer')
+            return;
+        }
         axios.post('answer_question/', { project_id: params?.id, answers: answers }).then((r) => {
             console.log(r.data)
-            window.location.reload()
+            clearData()
+            setCurrentQuestion(r.data)
+            setProgress(r.data.progress)
+            setTree(JSON.parse(r.data.tree))
+            setQuestionNumber(r.data.answered_questions)
+            navigate('#' + r.data.qid)
+            if (r.data.qid == 'END') {
+                navigate('/project/' + params.id + '/view')
+            }
+        }).catch((e) => {
+            message.error('Something went wrong')
         })
     }
     const onBackClick = () => {
         axios.post('/project/back/', { project_id: params?.id }).then((r) => {
+            clearData()
+
             console.log(r.data)
-            window.location.reload()
+            setCurrentQuestion(r.data)
+            setProgress(r.data.progress)
+            setTree(JSON.parse(r.data.tree))
+            setQuestionNumber(r.data.answered_questions)
+            navigate('#' + r.data.qid)
+            if (r.data.qid == 'END') {
+                navigate('/project/' + params.id + '/view')
+            }
+        }).catch((e) => {
+            message.error('Something went wrong')
         })
     }
 
@@ -160,7 +192,8 @@ export const ProjectPage: React.FC = () => {
         <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-        Question #{currentQuestion?.number_id}
+        Question #{questionNumber + 1}
+        {/* {currentQuestion?.number_id}  */}
             {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
             {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
                 <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
@@ -174,18 +207,21 @@ export const ProjectPage: React.FC = () => {
             </div>
             <div className="ProjectPageMainWrapper">
                 <div className="ProjectPageQuestion" >{currentQuestion?.text}</div>
-                <div className="ProjectPageQuestionWrapper">
+                {
+                    currentQuestion?.answers == undefined ? <Spin></Spin>
+                    :
+                        <div className="ProjectPageQuestionWrapper">
                     {
                         currentQuestion?.answers[0].type == 'SINGLE' ?
 
-                            <Radio.Group className="ProjectPageQuestionWrapper">
+                            <Radio.Group  value={answers.length > 0 ? answers[0].text : undefined } className="ProjectPageQuestionWrapper">
                                 {currentQuestion?.answers.map((value, index) =>
-                                    <Answer
-                                        onChecked={(e) => { onCheckedRadio(e); }}
-                                        answer={value}
-                                        checked={isLeaveAsItAsString(value.text) || answers.some((ans: any) => ans?.id === value.id)} // Устанавливаем checked
-                                    />
-                                    // <Answer onChecked={(e) => { onCheckedRadio(e); }} answer={value} ></Answer>
+                                    // <Answer
+                                    //     onChecked={(e) => { onCheckedRadio(e); }}
+                                    //     answer={value}
+                                    //     checked={isLeaveAsItAsString(value.text) || answers.some((ans: any) => ans?.id === value.id)} // Устанавливаем checked
+                                    // />
+                                    <Answer checked={answers.some((ans: any) => ans?.id === value.id)} onChecked={(e) => { onCheckedRadio(e); }} answer={value} ></Answer>
                                 )}
                             </Radio.Group>
                             :
@@ -194,10 +230,12 @@ export const ProjectPage: React.FC = () => {
                                     disabled={isLeaveAsItAs()} // Отключаем, если Leave As It Is активен
                                     onChecked={(e) => onChecked(e)}
                                     answer={value}
+                                    isLeaveAsItIs={isLeaveAsItAsString(value.text)}
                                     checked={value.type == 'NUMBER EACH' ? true : answers.some((ans: any) => ans?.id === value.id)}
                                 />)
                     }
                 </div>
+                }
                 <div className="ProjectPageBtnsWrapper">
                     {
                         currentQuestion?.qid == 'Q1' ? <div></div>

@@ -2,7 +2,7 @@ import { App, Button } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaymentComponent from "../../components/paymentComponent";
-import { userApi } from "../../lib/axios";
+import { axios, userApi } from "../../lib/axios";
 import './styles.css'
 
 export const Account = () => {
@@ -11,8 +11,11 @@ export const Account = () => {
         last_name: '',
         username: '',
         phone_number: '',
+    })
+
+    const [projects, setProjects] = useState({
         projects_created: 0,
-        projects_availables: 0,
+        projects_completed: 0,
     })
 
 
@@ -26,6 +29,13 @@ export const Account = () => {
             userApi.get('user_self_info/').then((r) => {
                 setData(r.data)
             }).catch((r) => navigate('/login'))
+
+            axios.get('user_projects/').then((r) => {
+                setProjects(r.data)
+            }).catch((r) => {
+                console.log(r)
+                message.error('Error getting projects')
+            })
         }
     })
 
@@ -53,15 +63,33 @@ export const Account = () => {
                 <div>Last Name: {data.last_name}</div>
                 <div>E-mail: {data.username}</div>
                 <div>Phone number: {data.phone_number}</div>
-                {/* <div>Project created: {data.projects_created}</div>
-                <div>Project projects_availables: {data.projects_availables}</div> */}
-                <Button type="primary" onClick={() => navigate('/register')} size="large">Change profile</Button>
+                <Button style={{marginTop: 'auto'}} type="primary" onClick={() => navigate('/register')} size="large">Change profile</Button>
                 <Button onClick={() => logout()} size="large">Logout</Button>
             </div>
-            {/* <div>
-                <div className="accountCardInfoHeader">Payment<br></br></div>
-                <PaymentComponent user={data.phone_number}></PaymentComponent>
-            </div> */}
+            <div className="accountCardInfo">
+                <div className="accountCardInfoHeader">Projects info<br></br></div>
+                <div>Projects created: {projects.projects_created}</div>
+                <div>Projects completed: {projects.projects_completed}</div>
+            </div>
+            <div className="accountCardInfo">
+                <div className="accountCardInfoHeader">Payment info<br></br></div>
+                <div className="accountInfoText">
+                    You haven't added any cards. <br></br>
+                    Let's add one.
+                </div>
+
+                <Button style={{marginTop: 'auto'}} type="primary" onClick={() => navigate('/project/create')} size="large">Create a new project</Button>
+            </div>
+        </div>
+        <div className="accountCard">
+            <div className="accountCardInfo">
+                <div className="accountCardInfoHeader">Transactions History<br></br></div>
+                <div>
+                    <div className="accountInfoText">
+                        You don't have any transactions
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
