@@ -12,7 +12,8 @@ export const CreateProject: React.FC = () => {
 
     let navigate = useNavigate()
     
-    const onCreate = () =>{
+    const onCreate = (data: any, actions: any) =>{
+        console.log('DATA ACTIONS', data, actions)
         axios.post('create_payment/', {name:localStorage.getItem('project_name')}).then((data)=>{
             navigate('/project/'+data.data.id)
         }).catch((err) =>{
@@ -38,7 +39,7 @@ export const CreateProject: React.FC = () => {
         </div>
         <div className="CreateProjectBtnsWrapper">
             <Input size="large" className="CreateProjectInput" value={name} onChange={(e) => onNameChange(e)} placeholder="Enter project name"></Input>
-            <PaymentComponent onCreate={()=>onCreate()} project_name={name}></PaymentComponent>
+            <PaymentComponent onCreate={(data: any, actions: any)=>onCreate(data, actions)} project_name={name}></PaymentComponent>
 
             {/* <Button onClick={()=>onCreate()} className="CreateProjectBtn" type="primary" size="large">Next</Button> */}
         </div>

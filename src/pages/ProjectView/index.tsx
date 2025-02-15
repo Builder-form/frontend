@@ -9,7 +9,8 @@ import { Header } from "../../components/Header";
 import { TreeIE, TreeLeafIE } from "../../types";
 import { Excel } from 'antd-table-saveas-excel';
 import autoTable from 'jspdf-autotable'
-
+import generatePDF, { usePDF } from 'react-to-pdf';
+import Html2Pdf from 'html2pdf.js';
 
 
 interface ProjectViewIE extends TreeIE{
@@ -24,6 +25,7 @@ export const ProjectView:React.FC = () =>{
     const pdfRef = useRef(null);
     const printRef = useRef(null);
 
+    
     useEffect(()=>{
         if (!queried.current) {
            queried.current = true;
@@ -36,6 +38,26 @@ export const ProjectView:React.FC = () =>{
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
       });
+
+    const handleDownload = useReactToPrint({
+        content: () => printRef.current,
+        print: async (printIframe: HTMLIFrameElement) => {
+            const document = printIframe.contentDocument;
+            if (document) {
+            var opt = {
+                    margin:       1,
+                    filename:     data?.name + '.pdf',
+                    image:        { type: 'jpeg', quality: 0.9999 },
+                    html2canvas:  { scale: 1 },
+                    jsPDF:        { unit: 'cm', format: 'A4', orientation: 'portrait' }
+                };
+              const html = document.body.innerHTML;
+              console.log(html);
+              const exporter = new Html2Pdf(html, opt);
+              exporter.getPdf(true);
+            }
+        },
+    });
 
     const onPrintClick = () =>{
         handlePrint()
@@ -52,7 +74,8 @@ export const ProjectView:React.FC = () =>{
 
     const onFileClick = () =>{
         message.success('File downloaded!')
-
+        // handleDownload()
+        // generatePDF(printRef, {filename: data?.name + '.pdf'}, )
         const pdf = new jsPDF({
             orientation: 'portrait',
             unit: 'px',
@@ -83,7 +106,7 @@ export const ProjectView:React.FC = () =>{
 
         const columnsLocal = [
             {
-              title: 'Name',
+              title: 'Name:',
               dataIndex: 'name',
               width: 100,
               excelRender: (value:any, row:any, index:any) => {
@@ -91,27 +114,30 @@ export const ProjectView:React.FC = () =>{
                     children: value,
                     __style__: {
                         v: 'center',
-                        h: 'center',
                         bold:true,
                     },
+                    wrapText: true,
                   };
             }
             },
             {
-              title: 'Text',
+              title: 'Description',
               dataIndex: 'text',
-              width: 250,
+              width: 600,
               excelRender: (value:string, row:any, index:any) => {
                   let lValue = value.replaceAll('<strong>', '')
                   lValue = lValue.replaceAll('</strong>', '')
+                  lValue = lValue.replaceAll('</u>', '')
+                  lValue = lValue.replaceAll('<u>', '')
+                  lValue = lValue.replaceAll('<br/><br/>', '<br/>')
                   lValue = lValue.replaceAll('<br/>', String.fromCharCode(10))
                   return {
                     children: lValue,
                     __style__: {
-                      v: 'center',
-                      bold: !value.includes('*') || value.includes('<strong>'),
+                      bold: !value.includes('-') || value.includes('<strong>'),
+                      height:0.75,
+                      shrinkToFit:true,
                       wrapText:true,
-                      height:2,
                     },
                   };
                 }
@@ -121,11 +147,12 @@ export const ProjectView:React.FC = () =>{
                 dataIndex: 'quantity',
                 width: 75,
 
+
             },
             {
                 title:'Price',
                 dataIndex: 'price',
-                width: 75,
+                width: 100,
 
             },
             {
@@ -144,7 +171,8 @@ export const ProjectView:React.FC = () =>{
                 let lValue = value.replaceAll('<div>', '')
                 lValue = lValue.replaceAll('</div>', '')
                 lValue = lValue.replaceAll('&emsp;', '  ')
-                
+                lValue = lValue.replaceAll('<br/><br/>', '<br/>')
+
                 return {
                     name: index == 0? data?.list_of_work.name : '',
                     text: lValue, 
@@ -166,7 +194,7 @@ export const ProjectView:React.FC = () =>{
     ]
     
     if (data != undefined){
-        dataSource = [...dataSource, ...data?.list_of_work.text.split('<br/>').map((value:string, index:number)=>{
+        dataSource = [...dataSource, ...data?.list_of_work.text.replaceAll('<br/><br/>', '<br/>').split('<br/>').map((value:string, index:number)=>{
             return {
                 name: data?.list_of_work.name,
                 text: value, 
@@ -180,34 +208,41 @@ export const ProjectView:React.FC = () =>{
         {
             title: '№',
             dataIndex: 'key',
+            align: 'center',
             render: (text:string) => <div className="numberCell">{text}</div>
         },
         {
-          title: 'Name',
+          title: 'Name:',
           dataIndex: 'name',
-          onCell: (_:any, index:any) => {
+          onCell: (_: any, index: any) => {
             if (index === 2) {
-              return { rowSpan: dataSource.length - 2};
+                return { style: { verticalAlign: 'top', minWidth: '120px' }, rowSpan: dataSource.length - 2 };
             }
-           
-              if (index > 2) {
-                return { colSpan: 0 };
-              }
-            return {};
-          },
+
+            if (index > 2) {
+                return { style: { verticalAlign: 'top' }, colSpan: 0 };
+            }
+            return { style: { verticalAlign: 'top' } }; // Выравнивание по верхнему краю
+        },
         },
         {
-          title: 'Text',
+          title: 'Description',
           dataIndex: 'text',
-          render: (text:string) =>  <div dangerouslySetInnerHTML={{ __html: text}} />,
+          align: 'center',
+          render: (text:string) =>  <div style={{textAlign:'left'}} dangerouslySetInnerHTML={{ __html: text}} />,
         },
         {
+            align: 'center',
             title:'Quantity'
         },
         {
-            title:'Price'
+            align: 'center',
+            title:'Price',
+            render: (text:string) =>  <div style={{minWidth:'100px'}} className="priceCell"></div>,
         },
         {
+            align: 'center',
+
             title: 'Comment',
             render: (text:string) =>  <div className="commentCell"></div>,
 
@@ -241,13 +276,14 @@ export const ProjectView:React.FC = () =>{
                     <div> {data?.name}</div>
                     {
                         data == undefined? <Spin></Spin>:
-                        <Table  bordered style={{'width':'100%'}} pagination={false}
+                        <Table  bordered size="small" style={{'width':'100%'}} pagination={false}
                         dataSource={dataSource as any} columns={columns}/>
 
                     }
         </div>
+        {/* <div> */}
         <div style={{display:'none'}} >
-            <div  ref={pdfRef} className="pdfContent">
+            <div ref={pdfRef} className="pdfContent">
                 <div className="pdfHeader">
                     Project ::: {data?.name}
                 </div>
@@ -265,7 +301,6 @@ export const ProjectView:React.FC = () =>{
                     Project ::: {data?.name}
                 </div>
                 <div className="printContentWrapper">
-                
                     {
                         data == undefined? <Spin></Spin>:
                         <Table bordered size="small"  pagination={false} dataSource={dataSource as any} columns={columns}/>

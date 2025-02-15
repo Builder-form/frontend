@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PaymentComponent from "../../components/paymentComponent";
 import { axios, userApi } from "../../lib/axios";
 import './styles.css'
+import { TransactionIE } from "../../types";
 
 export const Account = () => {
     const [data, setData] = useState({
@@ -18,6 +19,7 @@ export const Account = () => {
         projects_completed: 0,
     })
 
+    const [transactions, setTransactions] = useState<TransactionIE[]>([])
 
     const queried = useRef(false);
     const { message, modal, notification } = App.useApp();
@@ -35,6 +37,13 @@ export const Account = () => {
             }).catch((r) => {
                 console.log(r)
                 message.error('Error getting projects')
+            })
+
+            axios.get('user_transactions/').then((r) => {
+                setTransactions(r.data)
+            }).catch((r) => {
+                console.log(r)
+                message.error('Error getting transactions')
             })
         }
     })
@@ -71,7 +80,7 @@ export const Account = () => {
                 <div>Projects created: {projects.projects_created}</div>
                 <div>Projects completed: {projects.projects_completed}</div>
             </div>
-            <div className="accountCardInfo">
+            {/* <div className="accountCardInfo">
                 <div className="accountCardInfoHeader">Payment info<br></br></div>
                 <div className="accountInfoText">
                     You haven't added any cards. <br></br>
@@ -79,15 +88,36 @@ export const Account = () => {
                 </div>
 
                 <Button style={{marginTop: 'auto'}} type="primary" onClick={() => navigate('/project/create')} size="large">Create a new project</Button>
-            </div>
+            </div> */}
         </div>
         <div className="accountCard">
-            <div className="accountCardInfo">
+            <div className="TransactionsInfo">
                 <div className="accountCardInfoHeader">Transactions History<br></br></div>
-                <div>
-                    <div className="accountInfoText">
-                        You don't have any transactions
-                    </div>
+                <div className="TransactionsList">
+                    {
+                        transactions.length > 0 ?
+                            transactions.map((transaction) => {
+                                return <div className="TransactionCard">
+                                    <div className="TransactionCardAmount">
+                                        {transaction.amount}£
+                                    </div>
+                                    <div className="TransactionCardProject">
+                                        {transaction.project}
+                                    </div>
+                                    <div className="TransactionCardDate">
+                                        {
+                                            new Date(Number(transaction.created) * 1000).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric'
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            })
+                            :
+                            <div>No transactions</div>
+                    }
                 </div>
             </div>
         </div>

@@ -32,6 +32,14 @@
     text-align: center;
 }
 
+.TransactionsInfo{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    font-size: 16px;
+    height: 100%;
+    width: 100%;
+}
 .accountCardInfo{
     display: flex;
     flex-direction: column;
@@ -45,4 +53,42 @@
     color: var(--light-text-color);
     font-size: 20px;
     font-weight: 400;
+}
+
+.TransactionCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px 0px;
+    background-color: var(--modal-background-color);
+    border-radius: 10px;
+    padding: 16px;
+    width: 100%;
+}
+
+.TransactionCardAmount{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.TransactionCardProject{
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.TransactionCardDate{
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--light-text-color);
+}
+
+.TransactionsList{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
 }

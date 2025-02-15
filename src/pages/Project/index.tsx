@@ -21,7 +21,9 @@ export const ProjectPage: React.FC = () => {
     const queried = useRef(false);
     const params = useParams()
     let navigate = useNavigate()
-    console.log(answers)
+
+    const treeRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if (localStorage.getItem('token') == undefined) {
             navigate('/login')
@@ -41,6 +43,15 @@ export const ProjectPage: React.FC = () => {
         }
     })
 
+    useEffect(() => {
+        if (treeRef.current) {
+            treeRef.current.scrollTo({
+                top: treeRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }, [tree]);
+
     const clearData = () => {
         setAnswers([])
     }
@@ -49,9 +60,12 @@ export const ProjectPage: React.FC = () => {
         { ...tree?.property_type, key: '1' },
         { ...tree?.project_type, key: '2' },
     ]
-
-    if (tree?.list_of_work != undefined) {
+    if (tree?.list_of_work != undefined && tree?.list_of_work.text != '<strong>Project type detalisation:</strong> ') {
         dataSource = [...dataSource, ...tree?.list_of_work.text.split('<br/>').map((value: string, index: number) => {
+            console.log(value)
+            if (value.trim() == '') {
+                return;
+            }
             return {
                 name: tree?.list_of_work.name,
                 text: value,
@@ -64,24 +78,26 @@ export const ProjectPage: React.FC = () => {
         {
             title: '№',
             dataIndex: 'key',
+            align: 'center',
             render: (text: string) => <div className="numberCell">{text}</div>
         },
         {
-            title: 'Name',
+            title: 'Name:',
             dataIndex: 'name',
+            align: 'center',
             onCell: (_: any, index: any) => {
                 if (index === 2) {
-                    return { rowSpan: dataSource.length - 2 };
+                    return { style: { verticalAlign: 'top', minWidth: '120px' }, rowSpan: dataSource.length - 2 };
                 }
 
                 if (index > 2) {
-                    return { colSpan: 0 };
+                    return { style: { verticalAlign: 'top' }, colSpan: 0 };
                 }
-                return {};
+                return { style: { verticalAlign: 'top' } }; // Выравнивание по верхнему краю
             },
         },
         {
-            title: 'Text',
+            title: 'Description',
             dataIndex: 'text',
             render: (text: string) => <div dangerouslySetInnerHTML={{ __html: text }} />,
         },
@@ -133,8 +149,8 @@ export const ProjectPage: React.FC = () => {
             message.info('Please select an answer')
             return;
         }
+        setCurrentQuestion(undefined)
         axios.post('answer_question/', { project_id: params?.id, answers: answers }).then((r) => {
-            console.log(r.data)
             clearData()
             setCurrentQuestion(r.data)
             setProgress(r.data.progress)
@@ -149,6 +165,7 @@ export const ProjectPage: React.FC = () => {
         })
     }
     const onBackClick = () => {
+        setCurrentQuestion(undefined)
         axios.post('/project/back/', { project_id: params?.id }).then((r) => {
             clearData()
 
@@ -166,6 +183,26 @@ export const ProjectPage: React.FC = () => {
         })
     }
 
+    const renderQuestionText = (text: string) => {
+        if (text && text.includes('-')) {
+            const parts = text.split('-').map(part => part.trim()).filter(Boolean);
+            const renderNested = (parts: string[]): JSX.Element => {
+                if (parts.length === 0) return <></>;
+                const [head, ...rest] = parts;
+                return (
+                    <ul className="hierarchy">
+                        <li>
+                            {head}
+                            {rest.length > 0 && renderNested(rest)}
+                        </li>
+                    </ul>
+                );
+            };
+            return renderNested(parts);
+        }
+        return <span>{text}</span>;
+    };
+
 
     return <div className="ProjectPage">
 
@@ -174,7 +211,7 @@ export const ProjectPage: React.FC = () => {
                 <div className="modalCard">
                     <img className="modalCross" onClick={() => setShowModal(false)} src='/icons/cross.svg'></img>
                     {/* <div className="ProjectPageHeader">Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} </div> */}
-                    <div className="ProjectPageHeader">Question #{currentQuestion?.number_id}</div>
+                    <div className="ProjectPageHeader">Question {currentQuestion?.number_id}</div>
                     <div className="modalHeader">Termins</div>
                     <div className="modalsTermins">
                         {
@@ -192,21 +229,27 @@ export const ProjectPage: React.FC = () => {
         <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-        Question #{questionNumber + 1}
+        Question {questionNumber + 1}
         {/* {currentQuestion?.number_id}  */}
             {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
-            {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
-                <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
-                :
-                <div></div>}
+            
         </div>
 
         <div className="ProjectPageTreeWrapper">
-            <div className="ProjectTree" style={{ whiteSpace: 'pre-line' }}>
-                <Table pagination={false} dataSource={dataSource} columns={columns} />
+            <div className="ProjectTree" ref={treeRef} style={{ whiteSpace: 'pre-line' }}>
+                <Table bordered size="small" pagination={false} dataSource={dataSource} columns={columns} />
             </div>
             <div className="ProjectPageMainWrapper">
-                <div className="ProjectPageQuestion" >{currentQuestion?.text}</div>
+                <div className="ProjectPageQuestion" >
+                    {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
+                        <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
+                        :
+                        <div></div>
+                    }
+                    &nbsp;
+                    {renderQuestionText(currentQuestion?.text ?? '')}
+
+                </div>
                 {
                     currentQuestion?.answers == undefined ? <Spin></Spin>
                     :

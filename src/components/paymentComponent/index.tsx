@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProjectIE } from '../../types';
 
 
-const PaymentComponent: React.FC<{ project_name: string, onCreate: () => void}> = (props) => {
+const PaymentComponent: React.FC<{ project_name: string, onCreate: (data: any, actions: any) => void}> = (props) => {
     const { message, modal, notification } = App.useApp();
     const [name, setName] = useState(props.project_name);
     useEffect(()=>{
@@ -17,7 +17,7 @@ const PaymentComponent: React.FC<{ project_name: string, onCreate: () => void}> 
     console.log(name, 'NAME', props.project_name)
    
     const handleApprove =(data: any, actions: any) => {        
-            props.onCreate()
+            props.onCreate(data, actions)
     };
 
     let navigate = useNavigate()
@@ -54,7 +54,7 @@ const PaymentComponent: React.FC<{ project_name: string, onCreate: () => void}> 
                             }],
                         } as any
                         );
-                        console.log(order)
+                        console.log('ON CREATE', data, actions, order)
                         return order;
                     }}
                     onApprove={async (data: any, actions: any) => {
@@ -62,7 +62,6 @@ const PaymentComponent: React.FC<{ project_name: string, onCreate: () => void}> 
                         handleApprove(data, actions)
                         return actions?.order.capture().then(function (details: any) {
                             message.success('Transaction completed by ' + details.payer.name.given_name);
-                            navigate('/')
                         });
                     }}
                 ></PayPalButtons>

@@ -33,8 +33,9 @@ export const ProjectCard:React.FC<ProjectIE> = (props) =>{
         navigate('project/'+props.id+'/view')
     }
 
+    const short_description = props.short_description == undefined || props.short_description == ''? "You haven't answered any questions yet. Start answering soon!" : props.short_description.replaceAll('<strong>', '<span  class="projectDescrH1">').replaceAll('</strong>', '</span>')
 
-
+    console.log(short_description)
     return <div className="ProjectCard">
         <img className="ProjectPic" src='/pictures/mock.png'></img>
         <div className="ProjectCardInfo">
@@ -51,13 +52,14 @@ export const ProjectCard:React.FC<ProjectIE> = (props) =>{
                     <img className="delBtn" onClick={()=>onDeleteClick()} src='/icons/del.svg'/>
                 </div>
             </div>
-            <div className="projectDescription">
-                <span className='projectDescrH1'>House type</span> <br/>
+            <div className="projectDescription" dangerouslySetInnerHTML={{ __html: short_description}}>
+               
+                {/* <span className='projectDescrH1'>House type</span> <br/>
                     &emsp;-Detached<br/>
                 <span className='projectDescrH1'>House Project type</span><br/>
                     &emsp;-House extensions<br/>
                 <span className='projectDescrH1'>Type of House refurbishment</span><br/>
-                    &emsp;-Refurb with minor non structural alterations<br/>
+                    &emsp;-Refurb with minor non structural alterations<br/> */}
             </div>
             <div className="projectFooter">
                     {

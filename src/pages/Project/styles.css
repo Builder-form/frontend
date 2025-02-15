@@ -18,9 +18,12 @@
 }
 
 .ProjectPageQuestion{
-    font-size: 24px;
+    font-size: 20px;
+    line-height: 24px;
     font-weight: 400;
-    color: var(--text-color)
+    color: var(--text-color);
+    text-align: left;
+    align-self: flex-start;
 }
 
 
@@ -142,7 +145,12 @@
     gap:50px;
     
 }
-
+.ant-table-tbody{
+    padding: 0 !important;
+  }
+  .ant-table-tbody > tr > td{
+    padding: 0 !important;
+  }
 .ProjectTree{
     width: 50%;
     max-height: 60vh;
@@ -160,10 +168,31 @@
 }
 
 .ProjectPageQuestionWrapper{
+    margin-top: 8px;
     align-self: flex-start;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
+    text-align: left;
+    gap: 4px;
+}
+
+ul.hierarchy {
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+ul.hierarchy li {
+    margin: 4px 0;
+    position: relative;
+}
+
+ul.hierarchy li:before {
+    content: "└";
+    position: absolute;
+    left: -25px;
+    color: var(--primary-color);
 }

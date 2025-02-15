@@ -20,11 +20,11 @@
 .CreateProjectText{
     font-size: 16px;
     text-align: center;
-    
+    max-width: 900px;
 }
 
 .CreateProjectBtnsWrapper{
-    margin-top: 64px;
+    margin-top: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;

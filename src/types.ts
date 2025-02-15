@@ -6,7 +6,8 @@ export interface ProjectIE{
     id:string,
     last_edit:string,
     created:string,
-    progress: number
+    progress: number,
+    short_description: string
 }
 
 
@@ -64,3 +65,11 @@ export interface HeaderIE{
     children?: JSX.Element|string,
 }
 
+
+
+export interface TransactionIE{
+    id:string,
+    amount:number,
+    created:string,
+    project:string,
+}

@@ -51,6 +51,7 @@ export const Main: React.FC = () => {
                         last_edit={project.last_edit}
                         created={project.created}
                         progress={project.progress}
+                        short_description={project.short_description}
                     ></ProjectCard>)
             }
         </div>

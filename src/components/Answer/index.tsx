@@ -2,6 +2,7 @@ import { Checkbox, Input, InputNumber, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { AnswerIE } from "../../types";
 import './styles.css'
+import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
 
 export interface AnswerComponentIE {
     answer: AnswerIE,
@@ -51,17 +52,17 @@ export const Answer: React.FC<AnswerComponentIE> = (props) => {
         <>
             {
                 props.answer.type == 'SINGLE' && !props.isLeaveAsItIs ?
-                    <Radio checked={props.checked} onClick={() => onChecked()} value={props.answer.text}>{props.answer.text}</Radio>
+                    <Radio className="ProjectPageRadio" checked={props.checked} onClick={() => onChecked()} value={props.answer.text}>{props.answer.text}</Radio>
                     :
                     props.answer.type == 'NUMBER EACH' ?
                         <InputNumber style={{alignSelf:'center'}} max={20} min={1} onChange={(e: any) => setAnswer(e?.toString())} ></InputNumber> :
                         (props.answer.type == 'CUSTOM' || props.answer.text == "Customise:") ?
                             <>
-                                <Checkbox checked={props.checked} disabled={checkDisabled()}  onChange={() => onChecked()}>Custom answer</Checkbox>
+                                <Checkbox className="ProjectPageRadio" checked={props.checked} disabled={checkDisabled()}  onChange={() => onChecked()}>Custom answer</Checkbox>
                                 <Input className="customAnswerInput" onChange={(e) => setAnswer(e.target.value)} disabled={!props.checked || checkDisabled()} placeholder="Enter answer"></Input>
                             </> :
                             (props.answer.type == 'MULTI - NQ ONE' || props.answer.type == 'MULTI - NQ EACH') || props.isLeaveAsItIs ?
-                                <Checkbox checked={props.checked} disabled={checkDisabled()} onChange={() => onChecked()}>{props.answer.text}</Checkbox> :
+                                <Checkbox className="ProjectPageRadio" checked={props.checked} disabled={checkDisabled()} onChange={() => onChecked()}>{props.answer.text}</Checkbox> :
                                 <div></div>
 
             }
