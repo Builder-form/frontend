@@ -214,6 +214,7 @@ export const ProjectView:React.FC = () =>{
         {
           title: 'Name:',
           dataIndex: 'name',
+          align: 'left',
           onCell: (_: any, index: any) => {
             if (index === 2) {
                 return { style: { verticalAlign: 'top', minWidth: '120px' }, rowSpan: dataSource.length - 2 };

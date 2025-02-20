@@ -84,7 +84,7 @@ export const ProjectPage: React.FC = () => {
         {
             title: 'Name:',
             dataIndex: 'name',
-            align: 'center',
+            align: 'left',
             onCell: (_: any, index: any) => {
                 if (index === 2) {
                     return { style: { verticalAlign: 'top', minWidth: '120px' }, rowSpan: dataSource.length - 2 };
@@ -229,10 +229,22 @@ export const ProjectPage: React.FC = () => {
         <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-        Question {questionNumber + 1}
+        {/* Question {questionNumber + 1} */}
+        {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
+                        <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
+                        :
+                        <div></div>
+        }
+        {currentQuestion?.text.split(' - ')[currentQuestion?.text.split(' - ').length - 1]}
+
         {/* {currentQuestion?.number_id}  */}
-            {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
-            
+        {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
+        </div>
+        <div className="ProjectPageQuestion" >
+                    
+            {/* &nbsp; */}
+            {/* {renderQuestionText(currentQuestion?.text ?? '')} */}
+            {currentQuestion?.text.split(' - ').splice(0, currentQuestion?.text.split(' - ').length - 1).join(' - ')}
         </div>
 
         <div className="ProjectPageTreeWrapper">
@@ -240,16 +252,7 @@ export const ProjectPage: React.FC = () => {
                 <Table bordered size="small" pagination={false} dataSource={dataSource} columns={columns} />
             </div>
             <div className="ProjectPageMainWrapper">
-                <div className="ProjectPageQuestion" >
-                    {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
-                        <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
-                        :
-                        <div></div>
-                    }
-                    &nbsp;
-                    {renderQuestionText(currentQuestion?.text ?? '')}
-
-                </div>
+               
                 {
                     currentQuestion?.answers == undefined ? <Spin></Spin>
                     :

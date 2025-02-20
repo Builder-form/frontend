@@ -22,8 +22,9 @@
     line-height: 24px;
     font-weight: 400;
     color: var(--text-color);
-    text-align: left;
+    text-align: center;
     align-self: flex-start;
+    width: 100%;
 }
 
 
