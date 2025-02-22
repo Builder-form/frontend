@@ -14,7 +14,7 @@ export const Header:React.FC<HeaderIE> = (props) =>{
         <img className="HeaderLogo" onClick={()=>navigate('/')} src='/icons/logo.svg'/>
         
         <div className="HeaderBtnsContainer">
-            <a href="mailto:support@support.com"><Button >support@support.com</Button></a>
+            <a className="HeaderEmail" href="mailto:support@support.com"><Button >support@support.com</Button></a>
             {
                 props.isAuth == false? 
                     <></>

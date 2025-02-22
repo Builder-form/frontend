@@ -197,3 +197,59 @@ ul.hierarchy li:before {
     left: -25px;
     color: var(--primary-color);
 }
+
+@media screen and (max-width: 768px) {
+    .ProjectPage{
+        padding-top: 110px;
+        padding-bottom: 96px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .ProjectPage{
+        padding-top: 100px;
+        gap: 8px;
+    }
+    .ProjectPageTreeWrapper{
+        gap:8px;
+    }
+
+    .ProjectPageHeader{
+        font-size: 24px;
+    }
+
+    .ProjectPageQuestion{
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .ProjectPage{
+        padding-top: 96px;
+    }
+    .ProjectPageTreeWrapper{
+        gap: 32px;
+        flex-direction: column-reverse;
+    }
+    .ProjectPageMainWrapper{
+        width: 100%;
+        gap:0px;
+    }
+    .ProjectPageQuestionWrapper{
+        margin-top: 0px;
+    }
+    .ProjectPageBtnsWrapper{
+        margin-top: 8px;
+    }
+    .ProjectPageQuestion{
+        font-size: 14px;
+    }
+
+    .ProjectTree{
+        width: 100%;
+        height: calc(100vh - 400px);
+    }
+    
+}

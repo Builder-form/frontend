@@ -86,3 +86,37 @@
 .delBtn:hover{
     transform: scale(1.05);
 }
+
+@media screen and (max-width: 600px) {
+   .ProjectCard{
+    flex-direction: column;
+    height: 400px;
+   }
+   .ProjectPic{
+    height: 200px;
+    width: 100%;
+   }
+}
+
+@media screen and (max-width: 450px) {
+    .ProjectCard{
+     flex-direction: column;
+     height: auto;
+    }
+    .ProjectCardInfo{   
+        width: 100%;
+    }
+    .ProjectPic {
+     display: none;
+    }
+    .ProjectCardHeader{
+        flex-wrap: wrap;
+        gap:8px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .ProjectBtnWrapper{
+        width: 100%;
+        justify-content: space-between;
+    }
+ }

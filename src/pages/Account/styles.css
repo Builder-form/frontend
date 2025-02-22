@@ -92,3 +92,35 @@
     gap: 16px;
     width: 100%;
 }
+
+
+@media screen and (max-width: 768px) {
+    .accountCard{
+        padding: 32px 50px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .accountCard{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap:32px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .TransactionCard{
+        flex-wrap: wrap;
+        padding: 8px;
+    }
+    .accountCard{
+        padding: 32px 20px;
+    }
+
+    .accountCardInfoHeader{
+        font-size: 24px;
+    }
+
+}

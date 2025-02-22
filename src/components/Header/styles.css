@@ -26,3 +26,9 @@
 .HeaderLogo:hover{
   transform: scale(1.02);
 }
+
+@media screen and (max-width: 450px) {
+  .HeaderEmail{
+    display: none;
+  }
+}

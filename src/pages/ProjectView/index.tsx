@@ -234,16 +234,19 @@ export const ProjectView:React.FC = () =>{
         },
         {
             align: 'center',
-            title:'Quantity'
+            title:'Quantity',
+            className: 'quantityCell',
         },
         {
             align: 'center',
             title:'Price',
+            className: 'priceCell',
+
             render: (text:string) =>  <div style={{minWidth:'100px'}} className="priceCell"></div>,
         },
         {
             align: 'center',
-
+            className: 'commentCell',
             title: 'Comment',
             render: (text:string) =>  <div className="commentCell"></div>,
 
@@ -277,7 +280,7 @@ export const ProjectView:React.FC = () =>{
                     <div> {data?.name}</div>
                     {
                         data == undefined? <Spin></Spin>:
-                        <Table  bordered size="small" style={{'width':'100%'}} pagination={false}
+                        <Table className="ProjectViewTable"  bordered size="small" style={{'width':'100%'}} pagination={false}
                         dataSource={dataSource as any} columns={columns}/>
 
                     }

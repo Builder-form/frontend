@@ -111,3 +111,35 @@
 
 
 
+
+
+@media screen and (max-width: 690px) {
+    .ProjectView{
+        padding-top: 96px;
+        padding-bottom: 96px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .ProjectViewCard{
+        padding: 8px;
+        font-size: 24px;
+        gap: 8px;
+    }
+    .ProjectViewTable table { 
+        font-size: 12px; 
+    }
+
+    .quantityCell{
+        display: none;
+    }
+    .priceCell{
+        display: none;
+    }
+    .commentCell{
+        display: none;
+    }
+    .ProjectViewButtonWrapper{
+        margin-top: 8px;
+    }
+}
+
