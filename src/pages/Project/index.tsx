@@ -21,7 +21,7 @@ export const ProjectPage: React.FC = () => {
     const queried = useRef(false);
     const params = useParams()
     let navigate = useNavigate()
-
+    
     const treeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export const ProjectPage: React.FC = () => {
             }
         }) as any]
     }
-
+    console.log(answers)
     const columns: TableProps<TreeLeafIE>['columns'] = [
         {
             title: '№',

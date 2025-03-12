@@ -1,4 +1,4 @@
-import { App, Button, Spin, Table, TableProps, Tooltip } from "antd";
+import { App, Button, Spin, Switch, Table, TableProps, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { axios, axiosNonAuth } from "../../lib/axios";
@@ -20,6 +20,9 @@ export const ProjectView:React.FC = () =>{
     let navigate = useNavigate()
     let params = useParams()
     const [data, setData] = useState<ProjectViewIE>()
+    const [clientData, setClientData] =  useState<ProjectViewIE>()
+    const [builderData, setBuilderData] =  useState<ProjectViewIE>()
+
     const { message, modal, notification } = App.useApp();
     const queried = useRef(false);
     const pdfRef = useRef(null);
@@ -30,8 +33,13 @@ export const ProjectView:React.FC = () =>{
         if (!queried.current) {
            queried.current = true;
            axiosNonAuth.post('get_answers/',{project_id:params.id} ).then((r) =>{
+                setClientData(r.data)
                 setData(r.data)
             })
+            axiosNonAuth.post('get_answers_for_builder/',{project_id:params.id} ).then((r) =>{
+                setBuilderData(r.data)
+            })
+
         }
     })
 
@@ -91,6 +99,7 @@ export const ProjectView:React.FC = () =>{
             }
          });    
     }
+
 
 
     const onMailClick = () =>{
@@ -269,6 +278,10 @@ export const ProjectView:React.FC = () =>{
                 </a>
                 <Button  title='Download Excel (.xls) file' onClick={()=>onExcelClick()} className="ProjectViewButton"><img src='/icons/file.svg'/></Button>
                 <Button  title='Send project as E-mail' onClick={()=>onMailClick()} className="ProjectViewButton"><img src='/icons/mail.svg'/></Button>
+                <div className="builderSwitch">
+                    Builder view
+                    <Switch onChange={(checked)=> checked? setData(builderData):setData(clientData)}></Switch>
+                </div>
             </div>
 
             <div className="ProjectViewButtonWrapperRight">

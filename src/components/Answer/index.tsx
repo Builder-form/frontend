@@ -55,7 +55,11 @@ export const Answer: React.FC<AnswerComponentIE> = (props) => {
                     <Radio className="ProjectPageRadio" checked={props.checked} onClick={() => onChecked()} value={props.answer.text}>{props.answer.text}</Radio>
                     :
                     props.answer.type == 'NUMBER EACH' ?
-                        <InputNumber style={{alignSelf:'center'}} max={20} min={1} onChange={(e: any) => setAnswer(e?.toString())} ></InputNumber> :
+                        <Radio.Group style={{display:'flex', flexDirection:'column'}} onChange={(e)=>setAnswer(e.target.value.toString())}>
+                        {
+                            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((value) => <Radio className="ProjectPageRadio" value={value}>{value} {value < 2? 'Room':'Rooms'}</Radio>)
+                        }
+                        </Radio.Group> :
                         (props.answer.type == 'CUSTOM' || props.answer.text == "Customise:") ?
                             <>
                                 <Checkbox className="ProjectPageRadio" checked={props.checked} disabled={checkDisabled()}  onChange={() => onChecked()}>Custom answer</Checkbox>
