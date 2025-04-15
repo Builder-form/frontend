@@ -13,7 +13,7 @@ export const ProjectPage: React.FC = () => {
 
     const [currentQuestion, setCurrentQuestion] = useState<QuestionIE>()
     const [showModal, setShowModal] = useState(false)
-    const [answers, setAnswers] = useState<{text:string, id:string}[]>([])
+    const [answers, setAnswers] = useState<{ text: string, id: string }[]>([])
     const [progress, setProgress] = useState(0)
     const [questionNumber, setQuestionNumber] = useState(0)
     const [tree, setTree] = useState<TreeIE>({} as TreeIE)
@@ -21,7 +21,7 @@ export const ProjectPage: React.FC = () => {
     const queried = useRef(false);
     const params = useParams()
     let navigate = useNavigate()
-    
+
     const treeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -95,11 +95,13 @@ export const ProjectPage: React.FC = () => {
                 }
                 return { style: { verticalAlign: 'top' } }; // Выравнивание по верхнему краю
             },
+            render: (text: string) => <div style={{ paddingLeft: '5px' }} dangerouslySetInnerHTML={{ __html: text }} />,
         },
         {
             title: 'Description',
             dataIndex: 'text',
-            render: (text: string) => <div dangerouslySetInnerHTML={{ __html: text }} />,
+
+            render: (text: string) => <div style={{ paddingLeft: '10px' }} dangerouslySetInnerHTML={{ __html: text }} />,
         },
     ]
 
@@ -229,22 +231,23 @@ export const ProjectPage: React.FC = () => {
         <div className="goToProjects" onClick={() => navigate('/')}>Go to other projects</div>
         <Progress strokeColor={'#AA8066'} percent={progress} />
         <div className="ProjectPageHeader">
-        {/* Question {questionNumber + 1} */}
-        {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
-                        <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
-                        :
-                        <div></div>
-        }
-        {currentQuestion?.text.split(' - ')[currentQuestion?.text.split(' - ').length - 1]}
+            {/* Question {questionNumber + 1} */}
+            {currentQuestion?.text.split('-')[currentQuestion?.text.split('-').length - 1]}
 
-        {/* {currentQuestion?.number_id}  */}
-        {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
+            {currentQuestion?.termins != undefined && currentQuestion?.termins.length > 0 ?
+                <img className="terminBtn" onClick={() => setShowModal(true)} src='/icons/termin.svg'></img>
+                :
+                <div></div>
+            }
+
+            {/* {currentQuestion?.number_id}  */}
+            {/* Question #{currentQuestion?.qid.slice(1, currentQuestion?.qid.length)} */}
         </div>
         <div className="ProjectPageQuestion" >
-                    
+
             {/* &nbsp; */}
             {/* {renderQuestionText(currentQuestion?.text ?? '')} */}
-            {currentQuestion?.text.split(' - ').splice(0, currentQuestion?.text.split(' - ').length - 1).join(' - ')}
+            {currentQuestion?.text.split('-').splice(0, currentQuestion?.text.split('-').length - 1).join(' - ')}
         </div>
 
         <div className="ProjectPageTreeWrapper">
@@ -252,35 +255,35 @@ export const ProjectPage: React.FC = () => {
                 <Table bordered size="small" pagination={false} dataSource={dataSource} columns={columns} />
             </div>
             <div className="ProjectPageMainWrapper">
-               
+
                 {
                     currentQuestion?.answers == undefined ? <Spin></Spin>
-                    :
+                        :
                         <div className="ProjectPageQuestionWrapper">
-                    {
-                        currentQuestion?.answers[0].type == 'SINGLE' ?
+                            {
+                                currentQuestion?.answers[0].type == 'SINGLE' ?
 
-                            <Radio.Group  value={answers.length > 0 ? answers[0].text : undefined } className="ProjectPageQuestionWrapper">
-                                {currentQuestion?.answers.map((value, index) =>
-                                    // <Answer
-                                    //     onChecked={(e) => { onCheckedRadio(e); }}
-                                    //     answer={value}
-                                    //     checked={isLeaveAsItAsString(value.text) || answers.some((ans: any) => ans?.id === value.id)} // Устанавливаем checked
-                                    // />
-                                    <Answer checked={answers.some((ans: any) => ans?.id === value.id)} onChecked={(e) => { onCheckedRadio(e); }} answer={value} ></Answer>
-                                )}
-                            </Radio.Group>
-                            :
-                            currentQuestion?.answers.map((value, index) =>
-                                <Answer
-                                    disabled={isLeaveAsItAs()} // Отключаем, если Leave As It Is активен
-                                    onChecked={(e) => onChecked(e)}
-                                    answer={value}
-                                    isLeaveAsItIs={isLeaveAsItAsString(value.text)}
-                                    checked={value.type == 'NUMBER EACH' ? true : answers.some((ans: any) => ans?.id === value.id)}
-                                />)
-                    }
-                </div>
+                                    <Radio.Group value={answers.length > 0 ? answers[0].text : undefined} className="ProjectPageQuestionWrapper">
+                                        {currentQuestion?.answers.map((value, index) =>
+                                            // <Answer
+                                            //     onChecked={(e) => { onCheckedRadio(e); }}
+                                            //     answer={value}
+                                            //     checked={isLeaveAsItAsString(value.text) || answers.some((ans: any) => ans?.id === value.id)} // Устанавливаем checked
+                                            // />
+                                            <Answer checked={answers.some((ans: any) => ans?.id === value.id)} onChecked={(e) => { onCheckedRadio(e); }} answer={value} ></Answer>
+                                        )}
+                                    </Radio.Group>
+                                    :
+                                    currentQuestion?.answers.map((value, index) =>
+                                        <Answer
+                                            disabled={isLeaveAsItAs()} // Отключаем, если Leave As It Is активен
+                                            onChecked={(e) => onChecked(e)}
+                                            answer={value}
+                                            isLeaveAsItIs={isLeaveAsItAsString(value.text)}
+                                            checked={value.type == 'NUMBER EACH' ? true : answers.some((ans: any) => ans?.id === value.id)}
+                                        />)
+                            }
+                        </div>
                 }
                 <div className="ProjectPageBtnsWrapper">
                     {
